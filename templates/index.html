@@ -1,0 +1,132 @@
+<!doctype html>
+    <html lang="en">
+      <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    		
+        <!-- JS -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<!-- HTML에 이 부분을 추가하고 -->
+        <link href="https://fonts.googleapis.com/css?family=Stylish&display=swap" rel="stylesheet">
+        <style>
+        body{
+          background-color: white;
+          font-family: 'Stylish', sans-serif;
+        }
+
+        div.form-post {
+          max-width: 800px;
+          padding: 2rem;
+          margin: 2rem auto;
+          border-color:   #DC143C;
+          border-radius: 0.5rem;
+          border: solid;
+          border-width: thick;
+        }
+        div.text-post {
+          max-width: 800px;
+          padding: 0rem;
+          margin: 2rem auto;        }
+        div.input {
+          max-width: 400px;
+          margin: 0rem;
+          padding: 0rem;
+          text-align: left;
+        }
+        </style>
+      </head>
+      <body>
+        <div class=form-post onclick="openClose()">
+          <img src="https://www.washburn.com/wp-content/uploads/2018/06/N2NMK.jpg" class="img-fluid" alt="Responsive image">
+        </div>
+        <div id=description class="text-post p-3 mb-2 bg-success text-white">
+          <h1>Washburn N4  <span class="h5 font-weight-bold text-warning">가격: 2,000,000원 / 1대</span></h1>
+          <h6>
+            <p>The Washburn N4 Authentic is an exact replica of Nuno Bettencourt’s iconic N4 guitar. It has been painstakingly recreated in the USA Custom shop from Nuno’s original N4 by Washburn’s master luthiers and replicates every dent, ding, story, and nuance of personality contained in his guitar.</p>
+            The Washburn N4 has been inseparably associated with Nuno Bettencourt since its 1990 introduction. For fans of Nuno, the N4 Authentic is as close to having Nuno’s actual guitar in hand as you can get. Impeccable attention to detail has been paid right down to the 2 replacement tuners Nuno added and the EVH D-Tuna on the Floyd Rose.
+          </h6>
+        </div>
+      <div class="form-post">
+          <h1>주문서 작성</h1>
+          <div class="input-group mb-3 input">
+            <div class="input-group-prepend">
+              <button class="btn btn-outline-secondary" type="button" id="button-addon1">주문자 성명</button>
+            </div>
+            <input id=order-name type="text" class="form-control" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
+          </div>
+          <div class="input-group mb-3 input">
+            <div class="input-group-prepend">
+              <label class="btn btn-outline-secondary" for="inputGroupSelect01">주문 수량</label>
+            </div>
+            <select class="custom-select" id="order-number">
+              <option selected>Choose...</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+              <option value="7">7</option>
+              <option value="8">8</option>
+              <option value="9">9</option>
+            </select>
+          </div>
+          <div class="input-group mb-3 input">
+            <div class="input-group-prepend">
+              <button class="btn btn-outline-secondary" type="button" id="button-addon1">주문자 주소</button>
+            </div>
+            <input id=order-address type="text" class="form-control" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
+          </div>
+          <div class="input-group mb-3 input">
+            <div class="input-group-prepend">
+              <button class="btn btn-outline-secondary" type="button" id="button-addon1">주문자 전번</button>
+            </div>
+            <input id=order-phone type="text" class="form-control" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
+          </div>
+      </div>
+      <div class="text-post">
+        <button type="button" class="btn btn-primary btn-lg btn-block" onclick="post()">주문하기</button>
+      </div>
+      <script>
+        function openClose() {
+          if ($('#description').is(':visible')) {
+            $('#description').hide();
+            }
+          else if ($('#description').is(':hidden')) {
+            $('#description').show();
+            }
+          }
+
+        window.onload = function() {
+           $('#description').hide();
+        }
+
+        function post() {
+          let name = $('#order-name').val();
+          let number = $('#order-number').val();
+          let address = $('#order-address').val();
+          let phone = $('#order-phone').val();
+
+          $.ajax ({
+            type: "POST",
+            url: "/post",
+            data: { name_give: name, number_give: number, address_give: address, phone_give: phone},
+            success: function(response){
+               if (response['result'] == 'success') {
+                  alert('접수 완료!')
+               } else {
+                  alert('오류 발생!')
+               }
+              }
+            })
+          }
+
+      </script>
+      </body>
+  </html>
